@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "16FA3E51283EC41400B7A235"
                BuildableName = "udemy.app"
-               BlueprintName = "udemy (iOS)"
-               ReferencedContainer = "container:udemy.xcodeproj">
+               BlueprintName = "monitoring (iOS)"
+               ReferencedContainer = "container:monitoring.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
                BlueprintIdentifier = "16FA3E5E283EC41500B7A235"
                BuildableName = "Tests iOS.xctest"
                BlueprintName = "Tests iOS"
-               ReferencedContainer = "container:udemy.xcodeproj">
+               ReferencedContainer = "container:monitoring.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -56,8 +56,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "16FA3E51283EC41400B7A235"
             BuildableName = "udemy.app"
-            BlueprintName = "udemy (iOS)"
-            ReferencedContainer = "container:udemy.xcodeproj">
+            BlueprintName = "monitoring (iOS)"
+            ReferencedContainer = "container:monitoring.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -73,8 +73,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "16FA3E51283EC41400B7A235"
             BuildableName = "udemy.app"
-            BlueprintName = "udemy (iOS)"
-            ReferencedContainer = "container:udemy.xcodeproj">
+            BlueprintName = "monitoring (iOS)"
+            ReferencedContainer = "container:monitoring.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

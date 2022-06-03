@@ -27,10 +27,26 @@ struct LogsView: View {
                 }
             }
             HStack{
-                Text(service.name)
+                if service.componentStatuss == "UP" {
+                    Text("Components: " )
+                    Spacer().frame(width: 214)
+                    Image(systemName: "e.square").foregroundColor(.red)
+                }
+                else if service.componentStatuss == "DOWN"{
+                    Text(service.components).bold()
+                    Spacer().frame(width: 180)
+                    Image(systemName: "e.square").foregroundColor(.red)
+                }
+            }
+            VStack{
+                    Text(service.components)
             }
             HStack{
-                Text(service.email)
+                Text(service.name).font(.system(size: 10))
+                
+            }
+            HStack{
+                Text(service.email).font(.system(size: 10))
             }
         }
         List(service.service.logging) { logging in

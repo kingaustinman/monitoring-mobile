@@ -9,6 +9,8 @@ struct Service {
     var team: String
     var errorStatus: String?
     var logEventsWithErrorsTS: String?
+    var components: String?
+    var componentsStatus: String?
     var selected: Bool
     var logging: [LogViewModel]
 }
@@ -38,6 +40,12 @@ struct ServiceViewModel: Identifiable {
     var logEventsWithErrorsTS: String {
         return service.logEventsWithErrorsTS ?? ""
     }
+    var components: String {
+        return service.components ?? ""
+    }
+    var componentStatuss: String {
+        return service.componentsStatus ?? ""
+    }
 //    var year: String {
 //        return String(service.year)
 //    }
@@ -56,7 +64,7 @@ class ApplicationData: ObservableObject {
     
     init() {
         userData = [
-            ServiceViewModel(service: Service(name: "Scott MacCombie", email: "scott.maccombie@porsche.digital", serviceName: "One Sales", status: "UP", team: "Targa Acquired", errorStatus: "ERROR", logEventsWithErrorsTS: "2022-06-02T22:50:25Z", selected: false, logging: [
+            ServiceViewModel(service: Service(name: "Scott MacCombie", email: "scott.maccombie@porsche.digital", serviceName: "One Sales", status: "UP", team: "Targa Acquired", errorStatus: "ERROR", logEventsWithErrorsTS: "2022-06-02T22:50:25Z", components: "Vehicle Info Service", componentsStatus: "UP", selected: false, logging: [
                 LogViewModel(log: Log(link: "https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups/log-group/%2Faws%2Flambda%2Fslatldisal-ad-osaappbff-osaAuth", serviceName: "One Sales", account: 657003001523, region: "US-east-1", groupName: "/aws/lambda/slatldisal-ad-osaappbff-osaAuth",errorStatus: "ERROR", logEventsWithErrorsTS: "2022-06-02T22:50:25Z", selected: false)),
                 LogViewModel(log: Log(link: "https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups/log-group/%2Faws%2Flambda%2Fslatldisal-ad-osaappbff-osaBFFApp", serviceName: "One Sales", account: 657003001523, region: "US-east-1", groupName: "/aws/lambda/slatldisal-ad-osaappbff-osaBFFApp", selected: false)),
                 LogViewModel(log: Log(link: "https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups/log-group/%2Faws%2Flambda%2Fslatldisal-ad-osaappbff-osaBFFEvent", serviceName: "One Sales", account: 657003001523, region: "US-east-1", groupName: "/aws/lambda/slatldisal-ad-osaappbff-osaBFFEvent", selected: false)),
