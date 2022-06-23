@@ -3,7 +3,7 @@ import SwiftUI
 
 struct LogsView: View {
     @EnvironmentObject var appData2: LogData
-    @ObservedObject var appState = AppState(hasOnboarded: true)
+    @ObservedObject var appState = AppState(hasOnboarded: true, superToken: "1234", superID: "1234")
     @EnvironmentObject var apppState: AppState
     
     
@@ -54,7 +54,12 @@ struct LogsView: View {
                 DetailView(log: logging)
             }, label: {
                 HStack{
-                    Text(logging.groupName)
+                    if logging.errorStatus == "ERROR" {
+                        Text(logging.groupName).foregroundColor(.red)
+                    }
+                    else{
+                        Text(logging.groupName)
+                    }
                     Spacer()
                     if logging.errorStatus == "ERROR" {
                         Image(systemName: "e.square").foregroundColor(.red)

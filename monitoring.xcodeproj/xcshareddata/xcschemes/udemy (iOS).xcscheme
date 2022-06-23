@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "16FA3E51283EC41400B7A235"
-               BuildableName = "udemy.app"
+               BuildableName = "monitoring.app"
                BlueprintName = "monitoring (iOS)"
                ReferencedContainer = "container:monitoring.xcodeproj">
             </BuildableReference>
@@ -38,6 +38,16 @@
                ReferencedContainer = "container:monitoring.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "16646DFE2863D6AE002FFEF3"
+               BuildableName = "monitoring Tests.xctest"
+               BlueprintName = "monitoring Tests"
+               ReferencedContainer = "container:monitoring.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -55,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "16FA3E51283EC41400B7A235"
-            BuildableName = "udemy.app"
+            BuildableName = "monitoring.app"
             BlueprintName = "monitoring (iOS)"
             ReferencedContainer = "container:monitoring.xcodeproj">
          </BuildableReference>
@@ -72,7 +82,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "16FA3E51283EC41400B7A235"
-            BuildableName = "udemy.app"
+            BuildableName = "monitoring.app"
             BlueprintName = "monitoring (iOS)"
             ReferencedContainer = "container:monitoring.xcodeproj">
          </BuildableReference>

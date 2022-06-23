@@ -3,10 +3,13 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var appState: AppState
+    
     var body: some View {
         NavigationView {
-            ServicesView()
+//            ServicesView()
+            GetServicesView().environmentObject(appState)
             PlaceholderView()
+//            ViewController()
         }
     }
 }

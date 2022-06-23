@@ -11,6 +11,7 @@ struct DetailView: View {
     
     var body: some View {
         VStack (alignment: .leading, spacing: 50){
+
             Text(log.serviceName)
                 .onTapGesture (count: 2){
                     limit1 = 1

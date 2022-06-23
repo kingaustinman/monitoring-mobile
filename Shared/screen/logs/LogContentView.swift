@@ -2,7 +2,7 @@
 import SwiftUI
 
 struct LogContentView: View {
-    @EnvironmentObject var appState: AppState
+
     
     let service: ServiceViewModel
     

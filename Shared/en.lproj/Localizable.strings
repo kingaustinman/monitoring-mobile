@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  monitoring
+
+  Created by Austin Daga on 6/22/22.
+  
+*/
+"Insert Email" = "Insert Email";
+"Enter" = "Enter";
+"Logout" = "Logout";
+"ServicesTitle" = "Services";
+"LogGroupsTitle" = "Log Groups";

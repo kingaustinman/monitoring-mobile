@@ -4,7 +4,7 @@ import SwiftUI
 struct ServicesView: View {
     @EnvironmentObject var appData: ApplicationData
     @EnvironmentObject var appData2: LogData
-    @ObservedObject var appState = AppState(hasOnboarded: true)
+    @ObservedObject var appState = AppState(hasOnboarded: true, superToken: "1234", superID: "1234")
     @EnvironmentObject var apppState: AppState
     @State private var openDiolag: Bool = false
     
@@ -15,15 +15,16 @@ struct ServicesView: View {
             }, label: {
                 HStack{
                     VStack(alignment: .leading){
-                        if service.status == "UP"{
-                            Text(service.serviceName).foregroundColor(.green)
-                        }
-                        else{
-                            Text(service.serviceName).foregroundColor(.red)
-                        }
+                        Text(service.serviceName)
                         Text(service.team).font(.system(size: 10))
                     }
                     Spacer()
+                    if service.status == "UP"{
+                        Image(systemName: "circle.fill").foregroundColor(.green)
+                    }
+                    else{
+                        Image(systemName: "circle.fill").foregroundColor(.red)
+                    }
                     if service.errorStatus == "ERROR"{
                         Image(systemName: "e.square").foregroundColor(.red)
                     }
@@ -47,6 +48,11 @@ struct ServicesView: View {
                     },
                         label: {Text("Logout")})
                 }
+//                ToolbarItemGroup(placement: .navigationBarTrailing){
+//                    NavigationLink(destination: {
+//                        AddServiceView()
+//                    }, label: {Text("add")})
+//                }
                 
             }
             .confirmationDialog("logout" , isPresented: $openDiolag, actions: {

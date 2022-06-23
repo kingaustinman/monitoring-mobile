@@ -1,0 +1,190 @@
+
+import SwiftUI
+
+
+struct Servicer: Hashable, Codable {
+    let services: [ListServices]
+    
+    struct ListServices: Hashable, Codable {
+        let contactInfo: Info
+        let healthStatus: Status
+        let serviceName: String
+        let lastUpdateTS: String
+        let team: String
+    }
+    
+    struct Info: Hashable, Codable {
+        let name: String
+        let email: String
+    }
+    struct Status: Hashable, Codable {
+        let components: Component?
+        let status: String
+    }
+        struct Component: Hashable, Codable {
+            let vehicleInfoService: String
+            
+            private enum CodingKeys : String, CodingKey {
+                    case vehicleInfoService = "Vehicle Info Service"
+                }
+        }
+    
+}
+
+class WebSocketStream: AsyncSequence {
+
+    typealias Element = URLSessionWebSocketTask.Message
+    typealias AsyncIterator = AsyncThrowingStream<URLSessionWebSocketTask.Message, Error>.Iterator
+    
+    private var stream: AsyncThrowingStream<Element, Error>?
+        private var continuation: AsyncThrowingStream<Element, Error>.Continuation?
+        private let socket: URLSessionWebSocketTask
+        
+    init(url: String, session: URLSession = URLSession.shared) {
+            socket = session.webSocketTask(with: URL(string: url+"eyJraWQiOiJLTzdSdld1b080SlwvZ082Wlpxak12eFVFSWVuQU9XVEl3d2M4dGlrTXdPYz0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkMmViNjlhYi1hZTlmLTQ4YmEtYWRiMy0wNjZkY2E5ZWQ2YzAiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfY3JWQXdXY2JGIiwiY29nbml0bzp1c2VybmFtZSI6ImQyZWI2OWFiLWFlOWYtNDhiYS1hZGIzLTA2NmRjYTllZDZjMCIsIm9yaWdpbl9qdGkiOiI4MTI0MGQ5YS00NzNiLTQyYTMtODI2Yi04OWNhM2ZhODE4ODIiLCJhdWQiOiIxZm11NzE0YWZjNmpzZWdmZjFma2RkYzBldCIsImV2ZW50X2lkIjoiOGE4OGIzZWItMjRkZS00NTJmLTljNjQtZDZlZjI3ZGZjZDFjIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE2NTU5NTY0NzksImV4cCI6MTY1NTk2MDA3OSwiaWF0IjoxNjU1OTU2NDc5LCJqdGkiOiIyZjJmOWI4Zi03YWEyLTRlMGItYWVhMy1jYzdkZmQxNTA3ZmMiLCJlbWFpbCI6ImF1c3RpbkBhYnN0cmFjdGVkLmlvIn0.JM4DqgBuLjpzakaMZ2OTF_3xTi3iI2Kkf3_Lex15Ign6auVUPmsKsHICWni5RVP5vY-JHRhouW5MnDsi7e09rpiANuakHHyyJ758RvS-RixrseR-JKbrdY9fJMkJizOKK9oNqfuH0UhiQA_-_1_i5XfgFuwlcjgbdNl9Ch70mOPfmz4LwX8DfVfRUwxANG2m2TglprGGwBf0YaLAzy14koSa36XKBp4SKxavGLcMqAaiRuhQN1FlMdyGhlGdqJ1rlOXmge-7eZ7iACejdkzvDzfyZLcONf_5_olKc02SUl-_GaSlNI4_0f3rsg1XOUF_S01tVeRVQYWgpvVSQmby4g")!)
+            stream = AsyncThrowingStream { continuation in
+                self.continuation = continuation
+                self.continuation?.onTermination = { @Sendable [socket] _ in
+                    socket.cancel()
+                    print("CONNECTION WAS LOST")
+                }
+            }
+        }
+    
+    func makeAsyncIterator() -> AsyncIterator {
+        guard let stream = stream else {
+            fatalError("stream was not initialized")
+        }
+        print("STREAM WAS INITIALIZED")
+        socket.resume()
+        listenForMessages()
+        return stream.makeAsyncIterator()
+    }
+    
+    private func listenForMessages() {
+        socket.receive { [unowned self] result in
+            switch result {
+            case .success(let message):
+                continuation?.yield(message)
+                listenForMessages()
+            case .failure(let error):
+                continuation?.finish(throwing: error)
+            }
+        }
+    }
+}
+
+class ViewModelService: ObservableObject {
+    @Published var service: Servicer = Servicer(services: [])
+    
+    var timer = Timer()
+
+    func viewDidLoad(theToken: String) {
+        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
+            self.fetch(theToken: theToken)
+        })
+    }
+
+
+    func fetch(theToken: String) {
+        guard let url = URL(string:
+            "https://iqj8u1lau3.execute-api.us-east-1.amazonaws.com/services") else {
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        print("Making Fetch Request: \(theToken)")
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(theToken)", forHTTPHeaderField: "Authorization")
+
+        let task = URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
+            guard let data = data, error == nil else{
+                return
+            }
+            
+            do {
+//                let response = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                let servicee = try JSONDecoder().decode(Servicer.self, from: data)
+                DispatchQueue.main.async {
+//                    print("SUCCEEDED: \(response)")
+                    self?.service = servicee
+                }
+
+            }
+            catch {
+                print("ERROR: \(error)")
+            }
+        }
+        
+        task.resume()
+    }
+    
+}
+
+
+struct GetServicesView: View {
+    @EnvironmentObject var appState: AppState
+    @StateObject var viewModelService = ViewModelService()
+    @State private var openDiolag: Bool = false
+    @EnvironmentObject var appppState: AppState
+    private let stream = WebSocketStream(url: "wss://dbaqkri5s7.execute-api.us-east-1.amazonaws.com/ad?idToken=")
+    
+    var body: some View {
+            List(viewModelService.service.services, id: \.self) { service in
+                NavigationLink(destination: {
+                    GetLogsView(serviceName: .constant(service.serviceName)).environmentObject(appState)
+                }, label: {
+                    Text(service.serviceName)
+                })
+            }.listStyle(.sidebar)
+            .navigationTitle("ServicesTitle")
+                .task {
+                    do {
+                        for try await message in stream {
+                            print("A NEW SERVICE WAS CREATED")
+                            viewModelService.fetch(theToken: appState.superToken)
+                        }
+                    } catch {
+                        debugPrint("Oops something didn't go right")
+                    }
+                }
+                .toolbar{
+                    ToolbarItemGroup(placement: .navigationBarLeading){
+                        Image("porsche")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 65)
+                    }
+                    ToolbarItemGroup(placement: .navigationBarTrailing){
+                        Button(action: {
+                            openDiolag = true
+                        },
+                            label: {Text("Logout")})
+                    }
+    //                ToolbarItemGroup(placement: .navigationBarTrailing){
+    //                    NavigationLink(destination: {
+    //                        AddServiceView()
+    //                    }, label: {Text("add")})
+    //                }
+                    
+                }
+                .confirmationDialog("logout" , isPresented: $openDiolag, actions: {
+                    Button("Confirm", role: .none, action: {appppState.hasOnboarded = false})
+                    Button("Cancel", role: .cancel, action: {})
+                }, message: {
+                    Text("Are You Sure Your Want To Logout?")
+                })
+                .onAppear {
+                    print ("ON APPEAR: \(appState.superToken) \(appState.hasOnboarded)")
+                    viewModelService.fetch(theToken: appState.superToken)
+                }
+                
+    }
+}
+
+struct GetServicesView_Previews: PreviewProvider {
+    static var previews: some View {
+        GetServicesView()
+    }
+}
+

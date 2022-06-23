@@ -1,0 +1,21 @@
+{
+  "austin": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-udemy-austin-214137-authRole",
+      "UnauthRoleArn": "arn:aws:iam::953794854742:role/amplify-udemy-austin-214137-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::953794854742:role/amplify-udemy-austin-214137-authRole",
+      "Region": "us-west-1",
+      "DeploymentBucketName": "amplify-udemy-austin-214137-deployment",
+      "UnauthRoleName": "amplify-udemy-austin-214137-unauthRole",
+      "StackName": "amplify-udemy-austin-214137",
+      "StackId": "arn:aws:cloudformation:us-west-1:953794854742:stack/amplify-udemy-austin-214137/9ee115a0-e3c0-11ec-a4fc-06a8e4341b8f",
+      "AmplifyAppId": "delwte40y64ea"
+    },
+    "categories": {
+      "auth": {
+        "udemy22c67a50": {},
+        "udemy8e50d4f3": {}
+      }
+    }
+  }
+}
