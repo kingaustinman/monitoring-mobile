@@ -176,7 +176,7 @@ struct CodeView: View {
     func isCorrect(correctCode: String) {
         if code.count == 4 && code == correctCode {
             self.presentationMode.wrappedValue.dismiss()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 on()
             }
         }
