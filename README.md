@@ -1,4 +1,4 @@
-# monitoring-mobile
+# monitoring-mobile for porsche-digital
 
 The goal of the Monitoring Service is to bring observability and visibility to the overall applications and microservices in the Porsche ecosystem.
 
